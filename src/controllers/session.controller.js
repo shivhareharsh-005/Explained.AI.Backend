@@ -212,6 +212,7 @@ const sendSessionMessage = asyncHandler( async (req, res) => {
     );
 })
 
+// complete session fetch
 const getSession = asyncHandler(async (req, res) => {
     const session = await LearningSession.findById(req.params.sessionId)
         .populate("explanation", "topic");
@@ -242,9 +243,23 @@ const getSessionMessages = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, messages, "Messages fetched successfully"));
 })
 
+
+
+
+// history of user sessions
+
+const getUserSessions = asyncHandler( async (req, res) => {
+      
+})
+
+
+
 export { 
     startSession,
     sendSessionMessage,
     getSession,
-    getSessionMessages
+    getSessionMessages,
+    getUserSessions
 };
+
+
