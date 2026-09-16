@@ -225,7 +225,13 @@ const getSession = asyncHandler(async (req, res) => {
         throw new ApiError(403, "You cannot view this session");
     }
 
-    return res.status(200).json(new ApiResponse(200, session, "Session fetched successfully"));
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            session, 
+            "Session fetched successfully"
+        )
+    );
 })
 
 const getSessionMessages = asyncHandler(async (req, res) => {
@@ -240,7 +246,11 @@ const getSessionMessages = asyncHandler(async (req, res) => {
     }
 
     const messages = await SessionMessage.find({ session: session._id }).sort({ createdAt: 1 });
-    return res.status(200).json(new ApiResponse(200, messages, "Messages fetched successfully"));
+    return res.status(200).json(
+        new ApiResponse(200,
+             messages, "Messages fetched successfully"
+        )
+    );
 })
 
 
@@ -249,7 +259,23 @@ const getSessionMessages = asyncHandler(async (req, res) => {
 // history of user sessions
 
 const getUserSessions = asyncHandler( async (req, res) => {
-      
+     
+    const userId = req.user._id;
+
+    const sessionDetails = await LearningSession.find({
+        user: userId,
+    })
+    .populate("explanation", "topic")
+    .sort({ createdAt : -1});
+    
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            sessionDetails,
+            "Sessions fetched successfully"
+        )
+    )
+
 })
 
 
